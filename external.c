@@ -1,0 +1,110 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include "shell.h"
+
+
+/**
+ * _getenv - it searches for an env variable with the
+ *           specified name
+ * @name: acts as pointer to name specified
+ * Return: value of the specified name, otherwise NULL.
+ */
+
+char *_getenv(const char *name)
+{
+	int a;
+	int len;
+
+	len = _strlen(name);
+
+	for (a = 0; environ[a] != NULL; a++)
+	{
+		if (_strncmp(name, environ[a], len) == 0)
+		{
+			return (environ[a] + len);
+		}
+	}
+	return (NULL);
+}
+
+/**
+ * _strdup - it duplicates a given string
+ *
+ * @str: string parameter
+ * Return: duplicate of a string.
+ */
+
+char *_strdup(const char *str)
+{
+	size_t a, len;
+	char *copy;
+
+	len = _strlen(str);
+
+	copy = malloc(len + 1);
+
+	if (copy == NULL)
+	{
+		return (NULL);
+	}
+
+	for (a = 0; a <= len; a++)
+	{
+		copy[a] = str[a];
+	}
+	return (copy);
+	free(copy);
+}
+/**
+ * generate_path - generatea a path for a particular command.
+ *
+ * @command: command to generate path for
+ * Return: command path generated,
+ *         NULL if command path couldn't be generated,
+ *         or if command was not found in path.
+ */
+
+char *generate_path(char *command)
+{
+	char *path, *path_copy, *command_path, *token;
+	int command_len, dir_len;
+
+	path = _getenv("PATH");
+
+	if (path)
+	{
+		path_copy = _strdup(path);
+		command_len = _strlen(command);
+		token = strtok(path_copy, ":");
+
+		while (token != NULL)
+		{
+			dir_len = _strlen(token);
+			command_path = malloc(command_len + dir_len + 2);
+
+			_strcpy(command_path, token);
+			_strcat(command_path, "/");
+			_strcat(command_path, command);
+			_strcat(command_path, "\0");
+
+			if (access(command_path, F_OK) == 0)
+			{
+				free(path_copy);
+				return (command_path);
+			}
+			free(command_path);
+			token = strtok(NULL, ":");
+		}
+		free(path_copy);
+
+		if (access(command, F_OK) == 0)
+		{
+			return (command);
+		}
+		return (NULL);
+	}
+	return (NULL);
+}
