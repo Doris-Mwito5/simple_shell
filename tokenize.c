@@ -19,12 +19,12 @@ char **tokenize(char *buffer, char *delimiter)
 		perror("Fatal Error");
 		return (NULL);
 	}
-	while ((tokens[i] = new_strtok(buffer, delimiter)) != NULL)
+	while ((tokens[i] = strtok(buffer, delimiter)) != NULL)
 	{
 		i++;
 		if (i == mcount)
 		{
-			tokens = _realloc(tokens, &mcount);
+			tokens = _realloc(tokens, mcount);
 			if (tokens == NULL)
 			{
 				perror("Fatal Error");
