@@ -1,7 +1,7 @@
 #include "builtins.h"
 
 /**
- * builtins - function that create builtins
+ * builtins - create builtins
  * @info: variable declared
  * @arguments: Arguments passed in the program
  * Return: If the command passed is a builtins
