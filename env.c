@@ -1,8 +1,10 @@
 #include "shell.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 /**
  * shell_env -the program that prints environmental variables
- * Returreturns 0 on succesful execution
+ * Returns 0 on succesful execution, otherwise,void.
  */
 int shell_env(void)
 {
