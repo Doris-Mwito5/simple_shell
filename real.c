@@ -1,5 +1,7 @@
 #include "memory.h"
 
+#include <stdlib.h>
+
 /**
  * _realloc - the funct Reallocates a mem blck using malloc and free functns.
  *

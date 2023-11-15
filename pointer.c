@@ -1,4 +1,5 @@
 #include "memory.h"
+#include <stdlib.h>
 
 /**
  * free_memory_p - Function that prints pointer variable
