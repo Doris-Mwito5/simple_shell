@@ -1,64 +1,105 @@
-#include "shell.h"
+#include "text.h"
 
 /**
- * tokenize - parsing user input into arguments
- *            by splits an array string into tokens using a delimiter.
- * @str: the string to be tokenized.
- * @delim: the delimiter used to split the string.
+ * split_words - splits a line into words
  *
- * Return: an array of pointers to the tokens,
- *         or NULL if an error occurs.
- */
-char **tokenize(char *str, const char *delim)
+ * @line: line to be split
+ * @sep: the delimiters for word splitting
+ *
+ * Return: set of words
+ **/
+char **split_words(char *line, const char *sep)
 {
-	char *token = NULL;
-	char **ret = NULL;
-	int i = 0;
+	char **words, **temp, *tokens;
+	size_t new_sizes, old_sizes;
 
-	token = strtok(str, delim);
-	while (token)
+	old_sizes = sizeof(char *);
+	words = malloc(old_sizes);
+	if (words != NULL)
 	{
-		ret = realloc(ret, sizeof(char *) * (i + 1));
-		if (ret == NULL)
-			return (NULL);
+		new_sizes = 1;
+		tokens = strtok(line, sep);
+		while (tokens)
+		{
+			if (tokens[0] == '#')
+				break;
+			temp = _realloc(words, old_sizes, (new_sizes + 1) * sizeof(char *));
+			old_sizes = (new_sizes + 1) * sizeof(char *);
+			if (temp == NULL)
+				break;
 
-		ret[i] = malloc(_strlen(token) + 1);
-		if (!(ret[i]))
-			return (NULL);
+			words = temp;
+			++new_sizes;
 
-		_strcpy(ret[i], token);
-		token = strtok(NULL, delim);
-		i++;
+			words[new_sizes - 2] = malloc(_strlen(tokens) + 1);
+			if (words == NULL)
+			{
+				free(words);
+				free(temp);
+			}
+
+			if (words[new_sizes - 2] != NULL)
+				_strcpy(words[new_sizes - 2], tokens);
+
+			tokens = strtok(NULL, sep);
+
+			temp = NULL;
+		}
+
+		words[new_sizes - 1] = NULL;
 	}
-	/*increase the size of the array*/
-	ret = realloc(ret, (i + 1) * sizeof(char *));
-	if (!ret)
-		return (NULL);
 
-	ret[i] = NULL;
-	return (ret);
+	return (words);
 }
 
 /**
- * tokenize_input - splits a user input string into tokens with tokenize().
- * @input: the user input string to be tokenized
+ * join_words - a function to join three words with a separator
+ * Description: Result -> w1.sep.w2.sep.nl
+ * @word1: first word to join
+ * @word2: second word to join
+ * @word3: the third Word to join
+ * @sep: the separator between the words
  *
- * Return: an array of pointers to the tokens, or NULL if an error occurs
- */
-char **tokenize_input(char *input)
+ * Return: returns the Line composed by 3 parts followed by a separator and
+ * ends by a new line
+ **/
+char *join_words(char *word1, char *word2, char *word3, const char *sep)
 {
-	char **tokens = NULL;
-	char *tmp = NULL;
+	char *auxil;
+	int size_str1, size_str2, size_str3, size_sep;
 
-	tmp = _strdup(input);
-	if (tmp == NULL)
-	{
-		_puts("Memory allocation error\n");
-		exit(EXIT_FAILURE);
-	}
+	size_str1 = size_str2 = size_sep = 0;
 
-	tokens = tokenize(tmp, " \t\r\n\a");
-	free(tmp);
+	if (word1 != NULL)
+		size_str1 = _strlen(word1);
+	else
+		word1 = "";
 
-	return (tokens);
+	if (word2 != NULL)
+		size_str2 = _strlen(word2);
+	else
+		word2 = "";
+
+	if (word3 != NULL)
+		size_str3 = _strlen(word3);
+	else
+		word3 = "";
+
+	if (sep != NULL)
+		size_sep = _strlen((char *)sep);
+	else
+		sep = "";
+
+	auxil = malloc(size_str1 + size_str2 + size_sep + size_str3 + size_sep + 2);
+	if (auxil == NULL)
+		return (NULL);
+
+	auxil = _strcpy(auxil, word1);
+	auxil = _strcat(auxil, (char *)sep);
+	auxil = _strcat(auxil, word2);
+	auxil = _strcat(auxil, (char *)sep);
+	auxil = _strcat(auxil, word3);
+	auxil = _strcat(auxil, "\n");
+
+	return (auxil);
 }
