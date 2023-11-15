@@ -1,8 +1,8 @@
 #include "shell.h"
-#include <stdlib.h> // Include this header for environ
+#include <stdlib.h> 
 
 /**
- * // Include this header for environ
+ * Include this header for environ
  * shell_env -the program that prints environmental variables
  * Returreturns 0 on succesful execution
  */
