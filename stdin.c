@@ -1,12 +1,13 @@
-#include "shell.h"
+#include "text.h"
 
 /**
- * prompt - Print shell prompt to stdin stream.
+ * print_err - this function  is used to Print a message to STDERR
  *
- * Return: void.
- */
-void prompt(void)
+ * @msg: this is the Message to print
+ *
+ * Return: the No. of bytes printed
+ **/
+int print_err(char *msg)
 {
-	_puts(PROMPT);
-	fflush(stdout);
+	return (print_to_fd(msg, STDERR));
 }

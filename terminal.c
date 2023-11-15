@@ -1,13 +1,28 @@
-#include "shell.h"
+#include "general.h"
+#include "text.h"
 
 /**
- * shell_clear - a program for clearing the terminalclears the terminal
- * @args: passed arguments
- * Return: returns 1 on execution and 0 to exit
- */
-int shell_clear(char **args)
+ * _putchar - this funct Prints a char to STDOUT
+ *
+ * @c: this is the Character to print.,
+ *
+ * Return: On success 1
+ * On error -1
+ **/
+int _putchar(char c)
 {
-	(void)args;
-	_puts("\033[2J\033[H");
-	return (1);
+	return (write(STDOUT, &c, 1));
+}
+
+/**
+ * print - this funct Prints a mess to STDOUT
+ *
+ * @msg: this is the Message to print.,
+ *
+ * Return: On success number of bytes printed
+ * On errror -1, and set the error
+ **/
+int print(char *msg)
+{
+	return (print_to_fd(msg, STDOUT));
 }
