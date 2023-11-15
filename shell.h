@@ -44,7 +44,7 @@ void handle_sigstp(int sig);
 
 int execute(char **args);
 
-char **tokenize(char *str, const char *delim);
+char **tokenize(char *buffer, char *delimiter);
 char **tokenize_input(char *input);
 
 char *_getenv(const char *name);
