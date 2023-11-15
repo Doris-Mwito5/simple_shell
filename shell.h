@@ -24,6 +24,18 @@ extern char **environ;
 
 void prompt(void);
 
+int builtins(general_t *info, char **arguments);
+int check_builtin(general_t *info, char **arguments);
+
+
+void bin_env(general_t *info, char **arguments);
+
+void echo_printer(int index, char *text, char **arguments);
+void bin_echo(general_t *info, char **arguments);
+
+int number_controller(general_t *info, char *number);
+void bin_exit(general_t *info, char **arguments);
+
 char *get_input(void);
 void free_last_input(void);
 void *get_line(void);
